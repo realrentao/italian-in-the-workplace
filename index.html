@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>意大利语职场实战 · 按职业学 Italiano per professioni</title>
+<meta name="description" content="面向中文使用者的意大利语职业场景学习站：餐饮、美发、医疗、法律、酒店、工程、商贸，含词汇卡、选择、填空、情景模拟与学习进度统计。">
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%87%AE%F0%9F%87%A9%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+
+<!-- ============ 顶栏 ============ -->
+<header class="topbar">
+  <button class="icon-btn only-mobile" id="btnDrawer" title="目录" aria-label="打开目录">☰</button>
+  <a class="brand" href="#" data-nav="home">
+    <span class="brand-flag"><i></i><i></i><i></i></span>
+    <span class="brand-txt">
+      <b>意大利语职场实战</b>
+      <em>Italiano per professioni</em>
+    </span>
+  </a>
+
+  <div class="search-wrap">
+    <span class="search-ico">🔍</span>
+    <input id="searchInput" type="search" placeholder="搜索意语单词 / 中文意思 / 句子（如：conto、账单、prenotare）" autocomplete="off">
+    <kbd class="only-desktop">Ctrl K</kbd>
+  </div>
+
+  <div class="top-actions">
+    <button class="icon-btn" id="btnFavTop" title="我的收藏">☆<b class="badge" id="favCount">0</b></button>
+    <button class="icon-btn" id="btnTheme" title="切换深浅色">◐</button>
+    <button class="icon-btn" id="btnStudyTop" title="开始学习">🎓</button>
+  </div>
+</header>
+
+<div class="shell">
+  <!-- ============ 侧栏 ============ -->
+  <aside class="sidebar" id="sidebar">
+    <div class="side-block" id="profBlock">
+      <div class="side-title">职业分类 <span class="hint">Professioni</span></div>
+      <nav id="profNav" class="prof-nav"></nav>
+    </div>
+    <div class="side-block" id="chapterBlock" hidden>
+      <div class="side-title">章节 <span class="hint">Lezioni</span></div>
+      <nav id="chapterNav" class="chapter-nav"></nav>
+    </div>
+    <div class="side-foot">
+      <div class="prog-mini">
+        <div class="prog-mini-txt">总进度 <b id="sideProg">0%</b></div>
+        <div class="bar"><span id="sideProgBar" style="width:0%"></span></div>
+      </div>
+      <p class="side-note">全部发音（含学习练习）：edge-tts 女声 it-IT-IsabellaNeural<br>进度保存在本机浏览器</p>
+    </div>
+  </aside>
+  <div class="drawer-mask" id="drawerMask"></div>
+
+  <!-- ============ 主区 ============ -->
+  <main class="main" id="main">
+    <div id="viewHome" class="view">
+      <section class="hero">
+        <div class="hero-txt">
+          <h1>在不同职业场景里，<span class="hl">把意大利语用起来</span></h1>
+          <p>每个职业都有：核心词汇 · 常用句型 · 情景对话 · 语法讲解 · 中文释义 · 例句，全部带真人式女声配音。</p>
+          <div class="hero-btns">
+            <button class="btn primary" id="btnStart">开始学习 →</button>
+            <button class="btn ghost" id="btnQuickPlay">▶ 连播今日推荐 10 句</button>
+          </div>
+        </div>
+        <div class="hero-card">
+          <div class="hc-ring">
+            <svg viewBox="0 0 120 120" class="ring">
+              <circle cx="60" cy="60" r="52" class="ring-bg"></circle>
+              <circle cx="60" cy="60" r="52" class="ring-fg" id="heroRing"></circle>
+            </svg>
+            <div class="hc-num"><b id="heroNum">0%</b><span>总掌握度</span></div>
+          </div>
+          <ul class="hc-list">
+            <li><b id="statMastered">0</b> 已掌握</li>
+            <li><b id="statLearning">0</b> 学习中</li>
+            <li><b id="statStreak">0</b> 连续天数</li>
+            <li><b id="statDays">0</b> 累计学习天</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="sec">
+        <h2 class="sec-h">职业分类 <small>Professioni</small></h2>
+        <div class="prof-grid" id="profGrid"></div>
+      </section>
+
+      <section class="sec" id="favSection">
+        <h2 class="sec-h">我的收藏 <small>I miei preferiti</small></h2>
+        <div id="favList" class="fav-list"><p class="empty">还没有收藏，点任意词条右侧的 ☆ 即可收藏。</p></div>
+      </section>
+    </div>
+
+    <div id="viewProf" class="view" hidden></div>
+
+    <div id="viewChapter" class="view" hidden></div>
+  </main>
+</div>
+
+<!-- ============ 迷你播放器 ============ -->
+<div class="player" id="player" hidden>
+  <button class="pl-btn" id="plPrev" title="上一句">⏮</button>
+  <button class="pl-btn play" id="plToggle" title="播放 / 暂停">▶</button>
+  <button class="pl-btn" id="plNext" title="下一句">⏭</button>
+  <div class="pl-mid">
+    <div class="pl-title" id="plTitle">—</div>
+    <div class="pl-sub" id="plSub">连播中</div>
+  </div>
+  <div class="pl-right">
+    <label class="rate"><input type="checkbox" id="plLoop" checked> 循环</label>
+    <button class="pl-btn" id="plStop">✕</button>
+  </div>
+</div>
+
+<!-- ============ 学习面板 ============ -->
+<div class="modal" id="studyModal" hidden>
+  <div class="modal-card study-card">
+    <header class="modal-head">
+      <div class="tabs" id="studyTabs">
+        <button class="tab active" data-tab="cards">🃏 词汇卡片</button>
+        <button class="tab" data-tab="quiz">✅ 选择题</button>
+        <button class="tab" data-tab="fill">✏️ 填空题</button>
+        <button class="tab" data-tab="sim">🎭 情景模拟</button>
+        <button class="tab" data-tab="stats">📊 学习统计</button>
+      </div>
+      <div class="head-right">
+        <select id="studyScope" class="select"></select>
+        <button class="icon-btn" id="btnStudyClose">✕</button>
+      </div>
+    </header>
+    <div class="modal-body" id="studyBody"></div>
+  </div>
+</div>
+
+<!-- ============ 搜索结果 ============ -->
+<div class="modal" id="searchModal" hidden>
+  <div class="modal-card search-card">
+    <header class="modal-head">
+      <input id="searchModalInput" class="big-input" placeholder="搜索：意语 / 中文（Ctrl+K 唤起）">
+      <button class="icon-btn" id="btnSearchClose">✕</button>
+    </header>
+    <div class="modal-body" id="searchResults"></div>
+  </div>
+</div>
+
+<script src="data/data.js"></script>
+<script src="js/app.js"></script>
+<script src="js/study.js"></script>
+</body>
+</html>

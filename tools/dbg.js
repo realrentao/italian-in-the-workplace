@@ -1,0 +1,38 @@
+const path = require('path');
+const { chromium } = require('playwright');
+const ROOT = path.resolve(__dirname, '..');
+const URL = 'file:///' + path.join(ROOT, 'index.html').replace(/\\/g, '/');
+
+(async () => {
+  const b = await chromium.launch({ channel: 'msedge', executablePath: 'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe', headless: true });
+  const p = await b.newPage();
+  p.on('pageerror', (e) => console.log('PAGEERROR> ' + e.message + '\n' + (e.stack || '')));
+  p.on('console', (m) => { if (m.type() === 'error') console.log('CONSOLE> ' + m.text()); });
+  await p.goto(URL, { waitUntil: 'load' });
+  await p.waitForTimeout(500);
+  console.log('-- open study');
+  await p.click('#btnStudyTop');
+  await p.waitForTimeout(800);
+  console.log('-- click cards tab');
+  await p.click('#studyTabs .tab[data-tab="cards"]');
+  await p.waitForTimeout(500);
+  await p.screenshot({ path: path.join(__dirname, 'shots', 'dbg-cards.png') });
+  console.log('-- click play button on card');
+  const play = await p.$('#cCtrl [data-play]');
+  if (play) await play.click();
+  await p.waitForTimeout(600);
+  console.log('-- click shuffle');
+  await p.click('#cShuffle');
+  await p.waitForTimeout(400);
+  console.log('-- mark');
+  const mk = await p.$('#cCtrl [data-mark]');
+  if (mk) await mk.click();
+  await p.waitForTimeout(400);
+  console.log('-- fav');
+  const fv = await p.$('#cCtrl [data-fav]');
+  if (fv) await fv.click();
+  await p.waitForTimeout(400);
+  await p.screenshot({ path: path.join(__dirname, 'shots', 'dbg-cards2.png') });
+  console.log('DONE');
+  await b.close();
+})().catch((e) => { console.error('FATAL', e); process.exit(1); });

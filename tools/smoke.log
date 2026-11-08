@@ -1,0 +1,32 @@
+ok   01-home
+ok   02-toc
+ok   03-open-chapter
+ok   04-chapter-next
+ok   05-keyboard-next
+ok   06-back-toc
+ok   07-sidebar-nav
+ok   08-hash-route
+ok   09-search
+ok   10-search-hit
+ok   11-search-jump
+ok   12-study-open
+ok   13-cards-answer
+ok   14-quiz-answer
+ok   15-fill-answer
+ok   16-sim-answer
+ok   17-stats
+ok   18-scope-change
+ok   19-close
+ok   20-theme-dark
+ok   21-theme-back
+   favs 0 -> 1 (localStorage 1)
+ok   22-fav-add
+   整章收藏后共 22 条
+ok   23-favsec
+   收藏列表 22 条
+ok   24-fav-list
+ok   25-fav-jump
+ok   26-goto-home
+ok   27-placeholder
+STAT {"profCards":6,"ready":1,"tocCards":34,"sections":34,"rows":17,"total":657}
+--- errors (0) ---
